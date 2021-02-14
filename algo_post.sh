@@ -1,3 +1,5 @@
+#!/usr/bin/env sh
+
 # pull down dnscrypt config file
 wget -O /etc/dnscrypt-proxy/dnscrypt-proxy.toml https://raw.githubusercontent.com/rw-martin/algo-setup/main/dnscrypt-proxy.toml
 
