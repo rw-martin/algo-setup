@@ -34,11 +34,17 @@ deployShadowsocks()
    # install & config shadowsocks
    apt-get install shadowsocks-libev -y
 
-   ufw allow 7443
-
    ip=$(ip address show dev ens3 | awk '/inet / {print $2}'| cut -d/ -f1)
    wget -O /etc/shadowsocks-libev/config.json https://raw.githubusercontent.com/rw-martin/algo-setup/main/config.json
    sed -i "s/REPLACEME/$ip/g" /etc/shadowsocks-libev/config.json 
+}
+
+configUFW()
+{
+   wget -O /lib/systemd/system/ufw.service https://raw.githubusercontent.com/rw-martin/algo-setup/main/ufw.service
+   ufw allow 22
+   ufw allow 7443
+   echo 'y' | ufw enable
 }
 
 ### BEGIN
@@ -47,10 +53,9 @@ wget -O /etc/dnscrypt-proxy/dnscrypt-proxy.toml https://raw.githubusercontent.co
 
 configAlgo
 deployShadowsocks
+configUFW
 
 ## clean-up
-ufw allow 22
-echo 'y' | ufw enable
 
 # change default DNS listener to dnscrypt listener
 sed -i 's/127.0.0.53/127.0.2.1/g' /etc/resolv.conf 
