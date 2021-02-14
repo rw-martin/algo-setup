@@ -1,0 +1,34 @@
+# Last Modified: Sat Feb 13 08:48:30 2021
+#include <tunables/global>
+
+/usr/{s,}bin/dnscrypt-proxy flags=(attach_disconnected, complain) {
+  #include <abstractions/base>
+  #include <abstractions/nameservice>
+  #include <abstractions/openssl>
+
+  capability chown,
+  capability dac_override,
+  capability net_bind_service,
+  capability setgid,
+  capability setuid,
+  capability sys_resource,
+
+  /etc/dnscrypt-proxy/** r,
+  /etc/ld.so.cache r,
+  /lib/x86_64-linux-gnu/ld-*.so mr,
+  /run/systemd/notify rw,
+  /tmp/*.tmp w,
+  /tmp/public-resolvers.md* rw,
+  /usr/bin/dnscrypt-proxy mr,
+  /usr/local/lib/{@{multiarch}/,}libldns.so* mr,
+  /usr/local/lib/{@{multiarch}/,}libsodium.so* mr,
+  /var/*/ rw,
+  /var/log/* rw,
+  @{PROC}/sys/kernel/hostname r,
+  @{PROC}/sys/net/core/somaxconn r,
+  owner /etc/dnscrypt-proxy/ r,
+  owner /etc/dnscrypt-proxy/** rw,
+  owner /etc/query.log w,
+  owner /tmp/*.tmp r,
+
+}
