@@ -60,6 +60,7 @@ deployShadowsocks
 
 ## clean-up
 ufw allow 22
+echo 'y' | ufw enable
 
 # change default DNS listener to dnscrypt listener
 sed -i 's/127.0.0.53/127.0.2.1/g' /etc/resolv.conf 
