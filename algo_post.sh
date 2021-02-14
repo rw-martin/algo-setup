@@ -37,18 +37,8 @@ deployShadowsocks()
    ufw allow 7443
 
    ip=$(ip address show dev ens3 | awk '/inet / {print $2}'| cut -d/ -f1)
-   echo "
-   {
-      "server":[\""$ip"\"],
-      "mode":"tcp_and_udp",
-      "server_port":7443,
-      "password":"beans",
-      "timeout":120,
-      "method":"chacha20-ietf",
-      "fast_open":true,
-      "nameserver":"8.8.8.8"
-   }
-   " > /etc/shadowsocks-libev/config.json
+   wget -O /etc/shadowsocks-libdev/config.json https://raw.githubusercontent.com/rw-martin/algo-setup/main/config.json
+   sed -i "s/REPLACEME/$ip/g" /etc/shadowsocks-libdev/config.json 
 }
 
 ### BEGIN
