@@ -3,6 +3,7 @@
 # pull down dnscrypt config file
 wget -O /etc/dnscrypt-proxy/dnscrypt-proxy.toml https://raw.githubusercontent.com/rw-martin/algo-setup/main/dnscrypt-proxy.toml
 
+# use random port for WireGuard
 cd /opt/algo
 ranNum=$(shuf -i 58000-58900 -n 1)
 echo $ranNum
@@ -14,6 +15,11 @@ sed -i '/- desktop/a\  \- phonea' config.cfg
 sed -i '/- desktop/a\  \- phoneb' config.cfg
 sed -i '/- desktop/a\  \- linksys' config.cfg
 sed -i '/- desktop/a\  \- surface' config.cfg
+
+sed -i "s/51820/$ranNum/g" /opt/algo/configs/localhost/wireguard/laptop.conf
+sed -i "s/51820/$ranNum/g" /opt/algo/configs/localhost/wireguard/surface.conf
+sed -i "s/51820/$ranNum/g" /opt/algo/configs/localhost/wireguard/phonea.conf
+sed -i "s/51820/$ranNum/g" /opt/algo/configs/localhost/wireguard/phoneb.conf
 
 # reset wireguard interface w/ new port number
 wg showconf wg0 > ./rw.conf
