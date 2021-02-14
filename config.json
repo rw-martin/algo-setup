@@ -1,0 +1,7 @@
+{
+    "server": "REPLACEME",
+    "server_port": 7443,
+ 	  "password": "beans",
+    "method": "chacha20-ietf",
+	  "fast_open": false
+}
