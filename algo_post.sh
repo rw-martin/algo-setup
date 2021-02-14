@@ -25,6 +25,8 @@ configAlgo()
    sed -i 's/ListenPort = 51820/ListenPort = '$ranNum'/g' ./rw.conf
    # sync config w/ new portnum and restart wireguard
    wg-quick down wg0 && wg-quick up wg0
+   
+   ufw allow $ranNum
 }
 
 deployShadowsocks()
@@ -53,12 +55,11 @@ deployShadowsocks()
 # pull down dnscrypt config file
 wget -O /etc/dnscrypt-proxy/dnscrypt-proxy.toml https://raw.githubusercontent.com/rw-martin/algo-setup/main/dnscrypt-proxy.toml
 
-ufw allow $ranNum
-ufw allow 22
-echo 'y' | ufw enable
-
 configAlgo
 deployShadowsocks
+
+## clean-up
+ufw allow 22
 
 # change default DNS listener to dnscrypt listener
 sed -i 's/127.0.0.53/127.0.2.1/g' /etc/resolv.conf 
