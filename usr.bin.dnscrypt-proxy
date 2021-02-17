@@ -29,6 +29,7 @@
   owner /etc/dnscrypt-proxy/ r,
   owner /etc/dnscrypt-proxy/** rw,
   owner /etc/query.log w,
+  owner /var/log/dnscrypt-proxy/nx.log rw,
+  owner /var/log/dnscrypt-proxy/blocked.log rw,
   owner /tmp/*.tmp r,
-
 }
