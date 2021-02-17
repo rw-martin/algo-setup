@@ -295,7 +295,7 @@ cache_size = 4096
 
 ## Minimum TTL for cached entries
 
-cache_min_ttl = 2400
+cache_min_ttl = 3600
 
 
 ## Maximum TTL for cached entries
@@ -352,7 +352,7 @@ ignored_qtypes = ['DNSKEY', 'NS']
 
   ## Path to the query log file (absolute, or relative to the same directory as the executable file)
 
-  # file = 'nx.log'
+file = '/var/log/dnscrypt-proxy/nx.log'
 
 
   ## Query log format (currently supported: tsv and ltsv)
@@ -387,7 +387,7 @@ ignored_qtypes = ['DNSKEY', 'NS']
 
   ## Optional path to a file logging blocked queries
 
-  # log_file = 'blocked.log'
+log_file = '/var/log/dnscrypt-proxy/blocked.log'
 
 
   ## Optional log format: tsv or ltsv (default: tsv)
@@ -542,6 +542,3 @@ ignored_qtypes = ['DNSKEY', 'NS']
 
   # [static.'myserver']
   # stamp = 'sdns:AQcAAAAAAAAAAAAQMi5kbnNjcnlwdC1jZXJ0Lg'
-
-  [static.'NextDNS-b4ba6a']
-  stamp = 'sdns://AgEAAAAAAAAACjQ1LjkwLjI4LjAADmRucy5uZXh0ZG5zLmlvBy9iNGJhNmE'
