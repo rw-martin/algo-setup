@@ -5,6 +5,8 @@ configAlgo()
    
    # use random port for WireGuard
    cd /opt/algo
+   path="/opt/algo/configs/localhost/wireguard/"
+   
    ranNum=$(shuf -i 58000-58900 -n 1)
    echo $ranNum
    sed -i 's/wireguard_port: 51820/wireguard_port: '$ranNum'/g' config.cfg
@@ -22,11 +24,12 @@ configAlgo()
    sed -i "s/51820/$ranNum/g" /opt/algo/configs/localhost/wireguard/phoneb.conf
 
    # generate new QR codes to match changed conf files
+   cd /opt/algo/configs/localhost/wireguard/
    apt-get install qrencode -y
-   qrencode -o /opt/algo/configs/localhost/wireguard/laptop.png < /opt/algo/configs/localhost/wireguard/laptop.conf
-   qrencode -o /opt/algo/configs/localhost/wireguard/surface.png < /opt/algo/configs/localhost/wireguard/surface.conf
-   qrencode -o /opt/algo/configs/localhost/wireguard/phonea.png < /opt/algo/configs/localhost/wireguard/phonea.conf
-   qrencode -o /opt/algo/configs/localhost/wireguard/phoneb.png < /opt/algo/configs/localhost/wireguard/phoneb.conf
+   qrencode -o laptop.png < laptop.conf
+   qrencode -o surface.png < surface.conf
+   qrencode -o phonea.png < phonea.conf
+   qrencode -o phoneb.png < wireguard/phoneb.conf
 
 
    # reset wireguard interface w/ new port number
