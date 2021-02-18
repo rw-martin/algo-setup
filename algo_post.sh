@@ -22,7 +22,7 @@ configAlgo()
    sed -i "s/51820/$ranNum/g" /opt/algo/configs/localhost/wireguard/phoneb.conf
 
    # generate new QR codes to match changed conf files
-   apt-get install qrendcode -y
+   apt-get install qrencode -y
    qrencode -o laptop.png < /opt/algo/configs/localhost/wireguard/laptop.conf
    qrencode -o surface.png < /opt/algo/configs/localhost/wireguard/surface.conf
    qrencode -o phonea.png < /opt/algo/configs/localhost/wireguard/phonea.conf
