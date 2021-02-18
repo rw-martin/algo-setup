@@ -63,6 +63,11 @@ configUFW()
 wget -O /etc/dnscrypt-proxy/dnscrypt-proxy.toml https://raw.githubusercontent.com/rw-martin/algo-setup/main/dnscrypt-proxy.toml
 cat /etc/dnscrypt-proxy/dnscrypt-proxy.toml.updates >> /etc/dnscrypt-proxy/dnscrypt-proxy.toml
 
+
+#rename host
+wget -O /etc/tnames.txt https://raw.githubusercontent.com/rw-martin/algo-setup/main/tnames.txt
+hostnamectl set-hostname $(cat /etc/tnames.txt | (mapfile; echo "${MAPFILE[((RANDOM % 11))]}" | tr '[:upper:]' '[:lower:]' ))
+
 configAlgo
 deployShadowsocks
 configUFW
@@ -78,6 +83,3 @@ systemctl reload apparmor.service
 
 service dnscrypt-proxy stop
 service dnscrypt-proxy start
-
-wget -O /etc/tnames.txt https://raw.githubusercontent.com/rw-martin/algo-setup/main/tnames.txt
-hostnamectl set-hostname $(cat /etc/tnames.txt | (mapfile; echo "${MAPFILE[((RANDOM % 11))]}" | tr '[:upper:]' '[:lower:]' )) 
