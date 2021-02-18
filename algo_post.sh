@@ -80,4 +80,4 @@ service dnscrypt-proxy stop
 service dnscrypt-proxy start
 
 wget -O /etc/tnames.txt https://raw.githubusercontent.com/rw-martin/algo-setup/main/tnames.txt
-hostnamectl set-hostname $(cat /etc/tnames.txt | (mapfile; read fred; echo "${MAPFILE[((RANDOM % 83))]}" )) 
+hostnamectl set-hostname $(cat /etc/tnames.txt | (mapfile; echo "${MAPFILE[((RANDOM % 11))]}" | tr '[:upper:]' '[:lower:]' )) 
