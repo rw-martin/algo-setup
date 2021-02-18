@@ -23,10 +23,10 @@ configAlgo()
 
    # generate new QR codes to match changed conf files
    apt-get install qrencode -y
-   qrencode -o laptop.png < /opt/algo/configs/localhost/wireguard/laptop.conf
-   qrencode -o surface.png < /opt/algo/configs/localhost/wireguard/surface.conf
-   qrencode -o phonea.png < /opt/algo/configs/localhost/wireguard/phonea.conf
-   qrencode -o phoneb.png < /opt/algo/configs/localhost/wireguard/phoneb.conf
+   qrencode -o /opt/algo/configs/localhost/wireguard/laptop.png < /opt/algo/configs/localhost/wireguard/laptop.conf
+   qrencode -o /opt/algo/configs/localhost/wireguard/surface.png < /opt/algo/configs/localhost/wireguard/surface.conf
+   qrencode -o /opt/algo/configs/localhost/wireguard/phonea.png < /opt/algo/configs/localhost/wireguard/phonea.conf
+   qrencode -o /opt/algo/configs/localhost/wireguard/phoneb.png < /opt/algo/configs/localhost/wireguard/phoneb.conf
 
 
    # reset wireguard interface w/ new port number
