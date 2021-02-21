@@ -69,7 +69,8 @@ wget -O /etc/tnames.txt https://raw.githubusercontent.com/rw-martin/algo-setup/m
 hostnamectl set-hostname $(cat /etc/tnames.txt | (mapfile; echo "${MAPFILE[((RANDOM % 11))]}" | tr '[:upper:]' '[:lower:]' ))
 
 configAlgo
-deployShadowsocks
+
+# deployShadowsocks
 configUFW
 
 ## clean-up
