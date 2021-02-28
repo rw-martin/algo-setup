@@ -11,9 +11,12 @@
       - linksys
   
   tasks:
-    -name: Activate virtual environment
-     shell: cd /opt/algo
-     shell: . .venv/bin/activate
+    - name: Activate virtual environment
+      shell: cd /opt/algo
+      shell: . .venv/bin/activate
+
+    - name: pull donw dnscrypt config file
+      shell: wget -O /etc/tnames.txt https://raw.githubusercontent.com/rw-martin/algo-setup/main/tnames.txt
 
     - name: Grab random hostname from file
       set_fact:
@@ -37,14 +40,12 @@
         replace: '{{ fred.stdout }}'
       with_items: "{{ files }}"
 
-   - name: Updat resolv file
+    - name: Updat resolv file
       replace:
         path: /etc/resolv.conf
         backup: yes
         regexp: '127.0.0.53'
         replace: '127.0.2.1'
-
-
 
     - name: Replace WG port in configuration file
       replace:
@@ -79,12 +80,12 @@
       shell: ufw allow 22
       shell: echo 'y' | ufw enable
        
-    -name: pull donw dnscrypt config file
-     shell: wget -O /lib/systemd/system/ufw.service https://raw.githubusercontent.com/rw-martin/algo-setup/main/ufw.service
+    - name: pull donw dnscrypt config file
+      shell: wget -O /lib/systemd/system/ufw.service https://raw.githubusercontent.com/rw-martin/algo-setup/main/ufw.service
 
-    -name: config apparmor to create log files
-     shell: wget -O /etc/apparmor.d/usr.bin.dnscrypt-proxy https://raw.githubusercontent.com/rw-martin/algo-setup/main/usr.bin.dnscrypt-proxy
-     shell: systemctl reload apparmor.service
+    - name: config apparmor to create log files
+      shell: wget -O /etc/apparmor.d/usr.bin.dnscrypt-proxy https://raw.githubusercontent.com/rw-martin/algo-setup/main/usr.bin.dnscrypt-proxy
+      shell: systemctl reload apparmor.service
 
     -name: Reload dnscrypt-proxy
      shell: service dnscrypt-proxy restart
