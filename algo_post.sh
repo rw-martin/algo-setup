@@ -94,4 +94,4 @@ systemctl reload apparmor.service
 
 #Update/upgrade OS
 echo 'Y' | apt-get upgrade
-reboot
+#reboot
