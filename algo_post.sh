@@ -54,7 +54,7 @@ configUFW()
 {
    wget -O /lib/systemd/system/ufw.service https://raw.githubusercontent.com/rw-martin/algo-setup/main/ufw.service
    ufw allow 22
-   ufw allow 7443
+   # ufw allow 7443 -- for shadowproxyR
    echo 'y' | ufw enable
 }
 
@@ -70,7 +70,7 @@ hostnamectl set-hostname $(cat /etc/tnames.txt | (mapfile; echo "${MAPFILE[((RAN
 
 #update hosts file
 temphostname="$(hostname)"
-sed -i 's/vultr.guest/$temphost/g' /etc/resolv.conf
+sed -i 's/vultr.guest/$temphost/g' /etc/hosts
 
 configAlgo
 
