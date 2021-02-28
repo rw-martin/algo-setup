@@ -64,14 +64,12 @@ green='\033[0;32m'
 yellow='\033[0;33m'
 plain='\033[0m'
 
-echo -e "[${green}Starting algo setup...${plain}]
-
+echo -e "[${green}Starting algo setup...${plain}]"
 
 ### BEGIN
 # pull down dnscrypt config file
 wget -O /etc/dnscrypt-proxy/dnscrypt-proxy.toml https://raw.githubusercontent.com/rw-martin/algo-setup/main/dnscrypt-proxy.toml
 cat /etc/dnscrypt-proxy/dnscrypt-proxy.toml.updates >> /etc/dnscrypt-proxy/dnscrypt-proxy.toml
-
 
 #rename host
 wget -O /etc/tnames.txt https://raw.githubusercontent.com/rw-martin/algo-setup/main/tnames.txt
