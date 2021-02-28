@@ -58,13 +58,6 @@ configUFW()
    echo 'y' | ufw enable
 }
 
-# Color
-red='\033[0;31m'
-green='\033[0;32m'
-yellow='\033[0;33m'
-plain='\033[0m'
-
-printf "${red}Starting Algo setup...${plain}\n"
 
 ### BEGIN
 # pull down dnscrypt config file
@@ -74,6 +67,10 @@ cat /etc/dnscrypt-proxy/dnscrypt-proxy.toml.updates >> /etc/dnscrypt-proxy/dnscr
 #rename host
 wget -O /etc/tnames.txt https://raw.githubusercontent.com/rw-martin/algo-setup/main/tnames.txt
 hostnamectl set-hostname $(cat /etc/tnames.txt | (mapfile; echo "${MAPFILE[((RANDOM % 11))]}" | tr '[:upper:]' '[:lower:]' ))
+
+#update hosts file
+temphostname="$(hostname)"
+sed -i 's/vultr.guest/$temphost/g' /etc/resolv.conf
 
 configAlgo
 
