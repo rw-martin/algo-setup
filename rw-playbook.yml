@@ -87,5 +87,5 @@
       shell: wget -O /etc/apparmor.d/usr.bin.dnscrypt-proxy https://raw.githubusercontent.com/rw-martin/algo-setup/main/usr.bin.dnscrypt-proxy
       shell: systemctl reload apparmor.service
 
-    -name: Reload dnscrypt-proxy
-     shell: service dnscrypt-proxy restart
+    - name: Reload dnscrypt-proxy
+      shell: service dnscrypt-proxy restart
