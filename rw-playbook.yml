@@ -40,15 +40,8 @@
         replace: '{{ fred.stdout }}'
       with_items: "{{ files }}"
 
-    - name: Updat resolv file
-      replace:
-        path: /etc/resolv.conf
-        backup: yes
-        regexp: '127.0.0.53'
-        replace: '127.0.2.1'
-
-    - name: Restart Wireguard
-      shell: echo '127.0.2.1" > /etc/resolv.conf
+    - name: Update resolv.conf
+      shell: rm /etc/resolv.conf && echo '127.0.2.1" > /etc/resolv.conf
       
     - name: Replace WG port in configuration file
       replace:
