@@ -27,17 +27,17 @@
 
     - name: get random number
       shell: shuf -i 58000-58900 -n 1
-      register: fred
+      register: portnumber
 
     - debug:
-        msg: "{{ fred.stdout }}"
+        msg: "{{ portnumber.stdout }}"
 
     - name: Replace WG port
       replace:
         path: /opt/algo/configs/localhost/wireguard/{{ item }}.conf
         backup: yes
         regexp: '50000'
-        replace: '{{ fred.stdout }}'
+        replace: '{{ portnumber.stdout }}'
       with_items: "{{ files }}"
 
     - name: Update resolv.conf
@@ -48,14 +48,14 @@
         path: /opt/algo/config.cfg
         backup: yes
         regexp: 'wireguard_port: 51820'
-        replace: 'wireguard_port: {{ fred.stdout }}'
+        replace: 'wireguard_port: {{ portnumber.stdout }}'
 
     - name: Replace WG port in wg0 configuration file
       replace:
         path: /etc/wireguard/wg0.conf
         backup: yes
         regexp: 'ListenPort = 51820'
-        replace: 'ListenPort = {{ fred.stdout }}'
+        replace: 'ListenPort = {{ portnumber.stdout }}'
 
     - name: Restart Wireguard
       shell: wg-quick down wg0 && wg-quick up wg0
@@ -68,7 +68,7 @@
       with_items: "{{ files }}"
 ###
     - name: Update UFW 
-      shell: ufw allow {{ fred.stdout }}
+      shell: ufw allow {{ portnumber.stdout }}
 
 ### 
     - name: Config UFW to auto-start
