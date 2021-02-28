@@ -80,7 +80,7 @@ configUFW
 ## clean-up
 
 #Update/upgrade OS
-echo 'Y' | apt-get upgrade
+#echo 'Y' | apt-get upgrade
 
 # change default DNS listener to dnscrypt listener
 sed -i 's/127.0.0.53/127.0.2.1/g' /etc/resolv.conf 
@@ -92,4 +92,4 @@ systemctl reload apparmor.service
 service dnscrypt-proxy stop
 service dnscrypt-proxy start
 
-reboot
+#reboot
