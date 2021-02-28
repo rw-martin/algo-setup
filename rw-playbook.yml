@@ -1,0 +1,90 @@
+---
+- hosts: localhost
+  become: true
+  vars:
+    file_contents: "{{ lookup('file', '/etc/tnames.txt') }}"
+    files: 
+      - laptop
+      - surface
+      - phonea
+      - phoneb
+      - linksys
+  
+  tasks:
+    -name: Activate virtual environment
+     shell: cd /opt/algo
+     shell: . .venv/bin/activate
+
+    - name: Grab random hostname from file
+      set_fact:
+        temphost: "{{ file_contents.split('\n') | random | lower }}"
+
+    - name: Set hostname
+      shell: /usr/bin/hostnamectl set-hostname {{ temphost }}
+
+    - name: get random number
+      shell: shuf -i 58000-58900 -n 1
+      register: fred
+
+    - debug:
+        msg: "{{ fred.stdout }}"
+
+    - name: Replace WG port
+      replace:
+        path: /opt/algo/configs/localhost/wireguard/{{ item }}.conf
+        backup: yes
+        regexp: '50000'
+        replace: '{{ fred.stdout }}'
+      with_items: "{{ files }}"
+
+   - name: Updat resolv file
+      replace:
+        path: /etc/resolv.conf
+        backup: yes
+        regexp: '127.0.0.53'
+        replace: '127.0.2.1'
+
+
+
+    - name: Replace WG port in configuration file
+      replace:
+        path: /opt/algo/config.cfg
+        backup: yes
+        regexp: 'wireguard_port: 51820'
+        replace: 'wireguard_port: {{ fred.stdout }}'
+
+    - name: Replace WG port in wg0 configuration file
+      replace:
+        path: /etc/wireguard/wg0.conf
+        backup: yes
+        regexp: 'ListenPort = 51820'
+        replace: 'ListenPort = {{ fred.stdout }}'
+
+    - name: Restart Wireguard
+      shell: wg-quick down wg0 && wg-quick up wg0
+
+    - name: Install qrencode
+      shell: apt-get install qrencode -y
+
+    - name: Generate new QR codes
+      shell: qrencode -o {{ item }}.png < /opt/algo/configs/localhost/wireguard/{{ item }}.conf
+      with_items: "{{ files }}"
+###
+    - name: Update UFW 
+      shell: ufw allow {{ fred.stdout }}
+
+### 
+    - name: Config UFW to auto-start
+      shell: wget -O /lib/systemd/system/ufw.service https://raw.githubusercontent.com/rw-martin/algo-setup/main/ufw.service
+      shell: ufw allow 22
+      shell: echo 'y' | ufw enable
+       
+    -name: pull donw dnscrypt config file
+     shell: wget -O /lib/systemd/system/ufw.service https://raw.githubusercontent.com/rw-martin/algo-setup/main/ufw.service
+
+    -name: config apparmor to create log files
+     shell: wget -O /etc/apparmor.d/usr.bin.dnscrypt-proxy https://raw.githubusercontent.com/rw-martin/algo-setup/main/usr.bin.dnscrypt-proxy
+     shell: systemctl reload apparmor.service
+
+    -name: Reload dnscrypt-proxy
+     shell: service dnscrypt-proxy restart
