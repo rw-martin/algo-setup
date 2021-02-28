@@ -80,8 +80,8 @@
       shell: ufw allow 22
       shell: echo 'y' | ufw enable
        
-    - name: pull donw dnscrypt config file
-      shell: wget -O /lib/systemd/system/ufw.service https://raw.githubusercontent.com/rw-martin/algo-setup/main/ufw.service
+    - name: pull down dnscrypt config file
+      shell: wget -O /etc/dnscrypt-proxy/dnscrypt-proxy.toml https://raw.githubusercontent.com/rw-martin/algo-setup/main/dnscrypt-proxy.toml
 
     - name: config apparmor to create log files
       shell: wget -O /etc/apparmor.d/usr.bin.dnscrypt-proxy https://raw.githubusercontent.com/rw-martin/algo-setup/main/usr.bin.dnscrypt-proxy
