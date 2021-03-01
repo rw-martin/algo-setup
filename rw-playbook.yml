@@ -66,11 +66,10 @@
     - name: Generate new QR codes
       shell: qrencode -o {{ item }}.png < /opt/algo/configs/localhost/wireguard/{{ item }}.conf
       with_items: "{{ files }}"
-###
+
     - name: Update UFW 
       shell: ufw allow {{ portnumber.stdout }}
-
-### 
+ 
     - name: Config UFW to auto-start
       shell: wget -O /lib/systemd/system/ufw.service https://raw.githubusercontent.com/rw-martin/algo-setup/main/ufw.service
       shell: ufw allow 22
