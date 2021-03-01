@@ -36,7 +36,7 @@
       replace:
         path: /opt/algo/configs/localhost/wireguard/{{ item }}.conf
         backup: yes
-        regexp: '50000'
+        regexp: '51820'
         replace: '{{ portnumber.stdout }}'
       with_items: "{{ files }}"
 
