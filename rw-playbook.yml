@@ -15,7 +15,7 @@
       shell: cd /opt/algo
       shell: . .venv/bin/activate
 
-    - name: pull donw dnscrypt config file
+    - name: pull down hostnames file
       shell: wget -O /etc/tnames.txt https://raw.githubusercontent.com/rw-martin/algo-setup/main/tnames.txt
 
     - name: Grab random hostname from file
