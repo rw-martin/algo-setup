@@ -41,7 +41,7 @@
       with_items: "{{ files }}"
 
     - name: Update resolv.conf
-      shell: rm /etc/resolv.conf && echo '127.0.2.1" > /etc/resolv.conf
+      shell: rm /etc/resolv.conf && echo 'nameserver 127.0.2.1' > /etc/resolv.conf
       
     - name: Replace WG port in configuration file
       replace:
