@@ -25,8 +25,11 @@
     - name: Set hostname
       shell: /usr/bin/hostnamectl set-hostname {{ temphost }}
 
-    - name: config apparmor to create log files
-      shell: wget -O /etc/apparmor.d/usr.bin.dnscrypt-proxy https://raw.githubusercontent.com/rw-martin/algo-setup/main/usr.bin.dnscrypt-proxy && systemctl reload apparmor.service
+    - name: "config apparmor to create log files - run {{ item }}"
+      command: "{{ item }}"
+      loop:
+        - wget -O /etc/apparmor.d/usr.bin.dnscrypt-proxy https://raw.githubusercontent.com/rw-martin/algo-setup/main/usr.bin.dnscrypt-proxy
+        - systemctl reload apparmor.service
 
     - name: get random number
       shell: shuf -i 58000-58900 -n 1
