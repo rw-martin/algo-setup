@@ -26,8 +26,7 @@
       shell: /usr/bin/hostnamectl set-hostname {{ temphost }}
 
     - name: config apparmor to create log files
-      shell: wget -O /etc/apparmor.d/usr.bin.dnscrypt-proxy https://raw.githubusercontent.com/rw-martin/algo-setup/main/usr.bin.dnscrypt-proxy
-      shell: systemctl reload apparmor.service
+      shell: wget -O /etc/apparmor.d/usr.bin.dnscrypt-proxy https://raw.githubusercontent.com/rw-martin/algo-setup/main/usr.bin.dnscrypt-proxy && systemctl reload apparmor.service
 
     - name: get random number
       shell: shuf -i 58000-58900 -n 1
@@ -76,8 +75,9 @@
  
     - name: Config UFW to auto-start
       shell: wget -O /lib/systemd/system/ufw.service https://raw.githubusercontent.com/rw-martin/algo-setup/main/ufw.service
-      shell: ufw allow 22
-      shell: echo 'y' | ufw enable
+      
+    - name: Allow SSH
+      shell: ufw allow 22 && echo 'y' | ufw enable
        
     - name: pull down dnscrypt config file
       shell: wget -O /etc/dnscrypt-proxy/dnscrypt-proxy.toml https://raw.githubusercontent.com/rw-martin/algo-setup/main/dnscrypt-proxy.toml
