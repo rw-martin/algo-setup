@@ -12,10 +12,12 @@
   
   tasks:
     - name: Activate virtual environment
-      shell: cd /opt/algo
-      shell: . .venv/bin/activate
+      command: "{{ item }}"
+      loop:
+        - cd /opt/algo
+        - . .venv/bin/activate
 
-    - name: pull down hostnames file
+    - name: Download hostnames file
       shell: wget -O /etc/tnames.txt https://raw.githubusercontent.com/rw-martin/algo-setup/main/tnames.txt
 
     - name: Grab random hostname from file
@@ -46,7 +48,7 @@
         replace: '{{ portnumber.stdout }}'
       with_items: "{{ files }}"
 
-    - name: Update resolv.conf
+    - name: Remove link to resolv.conf and update
       shell: rm /etc/resolv.conf && echo 'nameserver 127.0.2.1' > /etc/resolv.conf
       
     - name: Replace WG port in configuration file
@@ -82,7 +84,7 @@
     - name: Allow SSH
       shell: ufw allow 22 && echo 'y' | ufw enable
        
-    - name: pull down dnscrypt config file
+    - name: download dnscrypt config file
       shell: wget -O /etc/dnscrypt-proxy/dnscrypt-proxy.toml https://raw.githubusercontent.com/rw-martin/algo-setup/main/dnscrypt-proxy.toml
 
     - name: Reload dnscrypt-proxy
