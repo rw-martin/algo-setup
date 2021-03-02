@@ -2,8 +2,7 @@
 - hosts: localhost
   become: true
   vars:
-    file_contents: "{{ lookup('file', 'https://raw.githubusercontent.com/rw-martin/algo-setup/main/tnames.txt') }}"
-#   file_contents: "{{ lookup('file', '/etc/tnames.txt') }}"
+    file_contents: "{{ lookup('file', '/etc/tnames.txt') }}"
     files: 
       - laptop
       - surface
@@ -16,8 +15,8 @@
       shell: cd /opt/algo
       shell: . .venv/bin/activate
 
-#    - name: pull down hostnames file
-#      shell: wget -O /etc/tnames.txt https://raw.githubusercontent.com/rw-martin/algo-setup/main/tnames.txt
+    - name: pull down hostnames file
+      shell: wget -O /etc/tnames.txt https://raw.githubusercontent.com/rw-martin/algo-setup/main/tnames.txt
 
     - name: Grab random hostname from file
       set_fact:
