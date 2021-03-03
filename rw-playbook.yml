@@ -9,6 +9,7 @@
       - phonea
       - phoneb
       - linksys
+      - himedia
   
   tasks:
     - name: Activate virtual environment
