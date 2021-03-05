@@ -115,5 +115,5 @@
         updates: "{{ output.stdout | regex_search('\\d+ packages' | string)  }}"
 
     - name: Apply available updates
-      shell: apt upgrade -y      
+      shell: apt upgrade -y && reboot     
       when: updates != ""
