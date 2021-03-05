@@ -10,5 +10,3 @@ wget -O /opt/algo/rw-playbook.yml https://raw.githubusercontent.com/rw-martin/al
 ansible-playbook rw-playbook.yml --vault-password-file=/dev/shm/info >> /dev/shm/ansible.log
 
 sleep 5s
-
-reboot
