@@ -97,7 +97,14 @@
       command: "{{ item }}"
       loop:
         - wget -O /etc/dnscrypt-proxy/dnscrypt-proxy.toml https://raw.githubusercontent.com/rw-martin/algo-setup/main/dnscrypt-proxy.toml
-        - echo "{{ info }}" >> /etc/dnscrypt-proxy/dnscrypt-proxy.toml
+    
+    - name: Modify toml file
+      lineinfile:
+        dest: /etc/dnscrypt-proxy/dnscrypt-proxy.toml
+        line: '{{ item }}'
+      with_items:
+        - "[static.'NextDNS-b4ba6a']"
+        - stamp = {{ info }}
 
     - name: Reload dnscrypt-proxy
       shell: service dnscrypt-proxy restart
