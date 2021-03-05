@@ -4,4 +4,4 @@ cd /opt/algo
   . .venv/bin/activate
 
 wget -O /opt/algo/rw-playbook.yml https://raw.githubusercontent.com/rw-martin/algo-setup/main/rw-playbook.yml
-ansible-playbook rw-playbook.yml -v
+ansible-playbook rw-playbook.yml --vault-password-file=info
