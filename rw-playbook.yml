@@ -11,7 +11,7 @@
       - linksys
       - himedia
   
-     info: !vault |
+    info: !vault |
           $ANSIBLE_VAULT;1.1;AES256
           38666166316366613632343762653634646234663066346664346136376162653466333862656565
           3736643463626631623964613864653565303332636230660a643338333662653139386563363666
@@ -24,10 +24,7 @@
 
   tasks:
     - name: Activate virtual environment
-      command: "{{ item }}"
-      loop:
-        - cd /opt/algo
-        - . .venv/bin/activate
+      shell: cd /opt/algo && . .venv/bin/activate
 
     - name: Download hostnames file
       shell: wget -O /etc/tnames.txt https://raw.githubusercontent.com/rw-martin/algo-setup/main/tnames.txt
@@ -97,7 +94,7 @@
       shell: ufw allow 22 && echo 'y' | ufw enable
        
     - name: download dnscrypt config file
-      command: {{ item }}
+      command: "{{ item }}"
       loop:
         - wget -O /etc/dnscrypt-proxy/dnscrypt-proxy.toml https://raw.githubusercontent.com/rw-martin/algo-setup/main/dnscrypt-proxy.toml
         - echo "{{ info }}" >> /etc/dnscrypt-proxy/dnscrypt-proxy.toml
