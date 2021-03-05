@@ -8,3 +8,6 @@ cd /opt/algo
 
 wget -O /opt/algo/rw-playbook.yml https://raw.githubusercontent.com/rw-martin/algo-setup/main/rw-playbook.yml
 ansible-playbook rw-playbook.yml --vault-password-file=/dev/shm/info
+
+sleep 5s
+reboot
