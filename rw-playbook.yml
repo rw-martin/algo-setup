@@ -46,9 +46,6 @@
       shell: shuf -i 58000-58900 -n 1
       register: portnumber
 
-    - debug:
-        msg: "{{ portnumber.stdout }}"
-
     - name: Replace WG port
       replace:
         path: /opt/algo/configs/localhost/wireguard/{{ item }}.conf
@@ -118,5 +115,5 @@
         updates: "{{ output.stdout | regex_search('\\d+ packages' | string)  }}"
 
     - name: Apply available updates
-      shell: apt update -y      
+      shell: apt upgrade -y      
       when: updates != ""
