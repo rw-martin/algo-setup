@@ -25,11 +25,11 @@
       set_fact:
         files: "{{ users.split(',') }}"      
 
-    - name: Grab random hostname from file
+    - name: Grab random Transformers name from file
       set_fact:
         temphost: "{{ file_contents.split('\n') | random | lower }}"
 
-    - name: Set hostname
+    - name: Set hostname to selected Transformer name
       shell: /usr/bin/hostnamectl set-hostname {{ temphost }}
 
     - name: "config apparmor to create log files - run {{ item }}"
