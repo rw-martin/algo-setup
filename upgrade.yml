@@ -1,12 +1,15 @@
 ---
+- hosts: localhost
+  become: true
+  vars:
 
 - name: Update environment
-      shell: apt update
-      register: output
+  shell: apt update
+  register: output
 
-    - set_fact:
-        updates: "{{ output.stdout | regex_search('\\d+ packages' | string)  }}"
+- set_fact:
+     updates: "{{ output.stdout | regex_search('\\d+ packages' | string)  }}"
 
-    - name: Apply available updates
-      shell: apt upgrade -y      
-      when: updates != ""
+- name: Apply available updates
+    shell: apt upgrade -y      
+  when: updates != ""
