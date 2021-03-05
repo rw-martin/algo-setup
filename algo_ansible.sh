@@ -1,6 +1,7 @@
 #!/usr/bin/env sh
 
 export ANSIBLE_LOG_PATH=~/var/log/ansible.log
+export USERS=linksys,laptop,phonea,phoneb,surface,himedia
 
 cd /opt/algo
   # shellcheck source=/dev/null
