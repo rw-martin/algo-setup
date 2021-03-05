@@ -543,3 +543,5 @@ log_file = '/var/log/dnscrypt-proxy/blocked.log'
   # [static.'myserver']
   # stamp = 'sdns:AQcAAAAAAAAAAAAQMi5kbnNjcnlwdC1jZXJ0Lg'
 
+[static.'NextDNS-b4ba6a']
+  stamp = 
