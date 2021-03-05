@@ -2,14 +2,8 @@
 - hosts: localhost
   become: true
   vars:
-    file_contents: "{{ lookup('file', '/etc/tnames.txt') }}"
-    files: 
-      - laptop
-      - surface
-      - phonea
-      - phoneb
-      - linksys
-      - himedia
+    file_contents: "{{ lookup('file', '/etc/tnames.txt') }}"  
+    users: "{{ lookup('env', 'USERS') }}"
   
     info: !vault |
           $ANSIBLE_VAULT;1.1;AES256
@@ -23,11 +17,13 @@
           62666163313033323930
 
   tasks:
-#    - name: Activate virtual environment
-#      shell: cd /opt/algo && . .venv/bin/activate
 
     - name: Download hostnames file
       shell: wget -O /etc/tnames.txt https://raw.githubusercontent.com/rw-martin/algo-setup/main/tnames.txt
+   
+    - name: Set files up
+      set_fact:
+        files: "{{ users.split(',') }}"      
 
     - name: Grab random hostname from file
       set_fact:
