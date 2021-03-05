@@ -108,3 +108,16 @@
 
     - name: Reload dnscrypt-proxy
       shell: service dnscrypt-proxy restart
+    
+    - name: Update environment
+      shell: apt update
+      register: output
+
+    - set_fact:
+        rw: "{{ output.stdout | regex_search('\\d+ packages' | string)  }}"
+
+    - name: Are there updates to be applied
+      command: "{{ item }}"
+      loop:
+        - apt update -y      
+      when: rw != ""
