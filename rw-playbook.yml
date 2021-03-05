@@ -105,7 +105,8 @@
       with_items:
         - "[static.'NextDNS-b4ba6a']"
         - stamp = {{ info }}
-
+      no_log: true
+      
     - name: Reload dnscrypt-proxy
       shell: service dnscrypt-proxy restart
     
@@ -114,10 +115,8 @@
       register: output
 
     - set_fact:
-        rw: "{{ output.stdout | regex_search('\\d+ packages' | string)  }}"
+        updates: "{{ output.stdout | regex_search('\\d+ packages' | string)  }}"
 
-    - name: Are there updates to be applied
-      command: "{{ item }}"
-      loop:
-        - apt update -y      
-      when: rw != ""
+    - name: Apply available updates
+      shell: apt update -y      
+      when: updates != ""
