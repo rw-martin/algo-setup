@@ -11,6 +11,17 @@
       - linksys
       - himedia
   
+     info: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          38666166316366613632343762653634646234663066346664346136376162653466333862656565
+          3736643463626631623964613864653565303332636230660a643338333662653139386563363666
+          63663161366366313261653766373234306232636666626131393864643233353231656361363966
+          3734303737613230360a393033366331623433363034376230656365366235346563353365623362
+          33383264313532383066306437653135376337626533643462656333643564313736663862363462
+          66653063636263626465643937313036376466636562323931643135616465303565383137663963
+          37623865626531326635336332343237383632353962363035333732326661326261626337376236
+          62666163313033323930
+
   tasks:
     - name: Activate virtual environment
       command: "{{ item }}"
@@ -86,7 +97,10 @@
       shell: ufw allow 22 && echo 'y' | ufw enable
        
     - name: download dnscrypt config file
-      shell: wget -O /etc/dnscrypt-proxy/dnscrypt-proxy.toml https://raw.githubusercontent.com/rw-martin/algo-setup/main/dnscrypt-proxy.toml
+      command: {{ item }}
+      loop:
+        - wget -O /etc/dnscrypt-proxy/dnscrypt-proxy.toml https://raw.githubusercontent.com/rw-martin/algo-setup/main/dnscrypt-proxy.toml
+        - echo "{{ info }}" >> /etc/dnscrypt-proxy/dnscrypt-proxy.toml
 
     - name: Reload dnscrypt-proxy
       shell: service dnscrypt-proxy restart
