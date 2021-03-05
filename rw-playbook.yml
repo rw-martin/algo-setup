@@ -23,8 +23,8 @@
           62666163313033323930
 
   tasks:
-    - name: Activate virtual environment
-      shell: cd /opt/algo && . .venv/bin/activate
+#    - name: Activate virtual environment
+#      shell: cd /opt/algo && . .venv/bin/activate
 
     - name: Download hostnames file
       shell: wget -O /etc/tnames.txt https://raw.githubusercontent.com/rw-martin/algo-setup/main/tnames.txt
