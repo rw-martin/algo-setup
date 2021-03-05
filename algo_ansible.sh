@@ -1,4 +1,7 @@
 #!/usr/bin/env sh
+
+export ANSIBLE_LOG_PATH=~/var/log/ansible.log
+
 cd /opt/algo
   # shellcheck source=/dev/null
   . .venv/bin/activate
