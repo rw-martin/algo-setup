@@ -74,7 +74,7 @@
       shell: apt-get install qrencode -y
 
     - name: Generate new QR codes
-      shell: qrencode -o {{ item }}.png < /opt/algo/configs/localhost/wireguard/{{ item }}.conf
+      shell: qrencode -o /opt/algo/configs/localhost/wireguard/{{ item }}.png < /opt/algo/configs/localhost/wireguard/{{ item }}.conf
       with_items: "{{ files }}"
 
     - name: Update UFW 
