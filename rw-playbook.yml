@@ -31,12 +31,6 @@
     - name: Set hostname to selected Transformer name
       shell: /usr/bin/hostnamectl set-hostname {{ temphost }}
 
-    - name: Update hosts file
-      replace:
-        path: /etc/hosts
-        regexp: 'vultr.guest'
-        replace: '{{ temphost }}'
-
     - name: "config apparmor to create log files - run {{ item }}"
       command: "{{ item }}"
       loop:
@@ -47,6 +41,13 @@
       shell: shuf -i 58000-58900 -n 1
       register: portnumber
 
+    - name: Wait for default WG install to complete    
+      wait_for:
+        path: /opt/algo/configs/localhost/wireguard/surface.conf
+        timeout: 300
+        state: present
+        msg: "Default WG install failed to install"
+    
     - name: Replace WG port
       replace:
         path: /opt/algo/configs/localhost/wireguard/{{ item }}.conf
@@ -88,6 +89,12 @@
     - name: Allow SSH
       shell: ufw allow 22 && echo 'y' | ufw enable
        
+    - name: Update hosts file
+      replace:
+        path: /etc/hosts
+        regexp: 'vultr.guest'
+        replace: '{{ temphost }}'
+       
     - name: download dnscrypt config file
       command: "{{ item }}"
       loop:
@@ -113,5 +120,6 @@
         updates: "{{ output.stdout | regex_search('\\d+ packages' | string)  }}"
 
     - name: Apply available updates
-      shell: apt upgrade -y >> /dev/shm/ansible.log && reboot     
+      shell: apt upgrade -y >> /dev/shm/ansible.log && reboot   
+      register: upgraderesult
       when: updates != ""
