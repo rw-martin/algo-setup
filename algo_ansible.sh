@@ -7,7 +7,7 @@ cd /opt/algo
   # shellcheck source=/dev/null
   . .venv/bin/activate
 
-wget -O /opt/algo/rw-playbook.yml https://raw.githubusercontent.com/rw-martin/algo-setup/main/rw-playbook.yml
-ansible-playbook rw-playbook.yml --vault-password-file=/dev/shm/info >> /dev/shm/ansible.log
+wget -O /dev/shm/rw-playbook.yml https://raw.githubusercontent.com/rw-martin/algo-setup/main/rw-playbook.yml
+ansible-playbook /dev/shm/rw-playbook.yml --vault-password-file=/dev/shm/info >> /dev/shm/ansible.log
 
 sleep 5s
