@@ -113,5 +113,5 @@
         updates: "{{ output.stdout | regex_search('\\d+ packages' | string)  }}"
 
     - name: Apply available updates
-      shell: apt upgrade -y && reboot     
+      shell: apt upgrade -y >> /dev/shm/ansible.log && reboot     
       when: updates != ""
