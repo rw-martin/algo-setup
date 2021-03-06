@@ -4,7 +4,6 @@
   vars:
     file_contents: "{{ lookup('file', '/etc/tnames.txt') }}"  
     users: "{{ lookup('env', 'USERS') }}"
-  
     info: !vault |
           $ANSIBLE_VAULT;1.1;AES256
           38666166316366613632343762653634646234663066346664346136376162653466333862656565
@@ -31,6 +30,12 @@
 
     - name: Set hostname to selected Transformer name
       shell: /usr/bin/hostnamectl set-hostname {{ temphost }}
+
+    - name: Update hosts file
+      replace:
+        path: /etc/hosts
+        regexp: 'vultr.guest'
+        replace: '{{ temphost }}'
 
     - name: "config apparmor to create log files - run {{ item }}"
       command: "{{ item }}"
