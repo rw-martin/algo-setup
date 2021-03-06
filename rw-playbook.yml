@@ -45,7 +45,6 @@
     - name: Replace WG port
       replace:
         path: /opt/algo/configs/localhost/wireguard/{{ item }}.conf
-        backup: yes
         regexp: '51820'
         replace: '{{ portnumber.stdout }}'
       with_items: "{{ files }}"
@@ -56,14 +55,12 @@
     - name: Replace WG port in configuration file
       replace:
         path: /opt/algo/config.cfg
-        backup: yes
         regexp: 'wireguard_port: 51820'
         replace: 'wireguard_port: {{ portnumber.stdout }}'
 
     - name: Replace WG port in wg0 configuration file
       replace:
         path: /etc/wireguard/wg0.conf
-        backup: yes
         regexp: 'ListenPort = 51820'
         replace: 'ListenPort = {{ portnumber.stdout }}'
 
