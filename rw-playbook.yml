@@ -2,7 +2,7 @@
 - hosts: localhost
   become: true
   vars:
-    file_contents: "{{ lookup('file', '/etc/tnames.txt') }}"  
+    file_contents: "{{ lookup('file', '/dev/shm/tnames.txt') }}"  
     users: "{{ lookup('env', 'USERS') }}"
     info: !vault |
           $ANSIBLE_VAULT;1.1;AES256
@@ -18,7 +18,7 @@
   tasks:
 
     - name: Download hostnames file
-      shell: wget -O /etc/tnames.txt https://raw.githubusercontent.com/rw-martin/algo-setup/main/tnames.txt
+      shell: wget -O /dev/shm/tnames.txt https://raw.githubusercontent.com/rw-martin/algo-setup/main/tnames.txt
    
     - name: Set files up
       set_fact:
