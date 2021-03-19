@@ -81,7 +81,7 @@
       with_items: "{{ files }}"
 
     - name: Create softlink to WG configs
-      shell: cd ~ && ln -s /opt/algo/configs/localhost/wireguard wireguard
+      shell: cd /root && ln -s /opt/algo/configs/localhost/wireguard wireguard
 
     - name: Update UFW 
       shell: ufw allow {{ portnumber.stdout }}
