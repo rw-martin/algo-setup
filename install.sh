@@ -20,7 +20,7 @@ cd /opt/
 
 installRequirements() {
   export DEBIAN_FRONTEND=noninteractive
-  apt-get update
+  #apt-get update
   apt-get install \
     software-properties-common \
     git \
