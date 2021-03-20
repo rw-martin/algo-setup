@@ -44,7 +44,7 @@
     - name: Wait for default WG install to complete    
       wait_for:
         path: /opt/algo/configs/localhost/wireguard/surface.conf
-        timeout: 120
+        timeout: 300
         state: present
         msg: "Default WG install failed to install"
     
