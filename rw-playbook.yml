@@ -102,6 +102,11 @@
       command: "{{ item }}"
       loop:
         - wget -O /etc/dnscrypt-proxy/dnscrypt-proxy.toml https://raw.githubusercontent.com/rw-martin/algo-setup/main/dnscrypt-proxy.toml
+        
+    - name: download blacklist.txt file
+      command: "{{ item }}"
+      loop:
+        - wget -O /etc/dnscrypt-proxy/blacklist.txt https://raw.githubusercontent.com/rw-martin/algo-setup/main/blacklist.txt
     
     - name: Modify toml file
       lineinfile:
