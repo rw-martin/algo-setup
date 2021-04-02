@@ -72,7 +72,10 @@
 
     - name: Restart Wireguard
       shell: wg-quick down wg0 && wg-quick up wg0
-
+    
+    - name: chmod algo log file
+      shell: chmod 400 /var/log/algo.log
+      
     - name: Install qrencode
       shell: apt-get install qrencode -y
 
