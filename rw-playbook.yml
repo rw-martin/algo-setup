@@ -85,6 +85,9 @@
 
     - name: Create softlink to WG configs
       shell: cd /root && ln -s /opt/algo/configs/localhost/wireguard wireguard
+      
+    - name: Create softlink to WG configs
+      shell: cd /root && ln -s /var/log/dnscrypt-proxy dnscrypt-proxy
    
     - name: Update UFW 
       shell: ufw allow {{ portnumber.stdout }}
