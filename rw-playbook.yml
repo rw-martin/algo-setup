@@ -20,12 +20,6 @@
     - name: Download hostnames file
       shell: wget -O /dev/shm/tnames.txt https://raw.githubusercontent.com/rw-martin/algo-setup/main/tnames.txt
    
-   - name: Download ip list script
-      shell: wget -O /root/updateiplist.sh https://raw.githubusercontent.com/rw-martin/algo-setup/main/updateiplist.sh
-   
-   - name: update crontab
-      shell: (crontab -l ; echo "0 4 * * * sh /root/updateiplist.sh")| crontab -
-   
     - name: Set files up
       set_fact:
         files: "{{ users.split(',') }}"      
