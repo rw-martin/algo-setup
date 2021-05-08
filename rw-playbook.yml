@@ -20,9 +20,6 @@
     - name: Install dos2unix
       shell: apt-get -qq install dos2unix
       
-    - name: Install zsh and change default shell
-      shell: apt-get -qq install zsh; chsh -s $(which zsh)
-      
     - name: Download hostnames file
       shell: wget -O /dev/shm/tnames.txt https://raw.githubusercontent.com/rw-martin/algo-setup/main/tnames.txt
    
