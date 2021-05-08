@@ -113,9 +113,6 @@
       command: "{{ item }}"
       loop:
         - wget -O /etc/dnscrypt-proxy/blacklist.txt https://raw.githubusercontent.com/rw-martin/algo-setup/main/blacklist.txt
-        
-    - name: Update dnscrypt-proxy deny list file
-      shell: sh /root/updateiplist.sh
     
     - name: Modify toml file
       lineinfile:
