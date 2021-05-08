@@ -16,10 +16,7 @@
           62666163313033323930
 
   tasks:
-
-    - name: Install dos2unix
-      shell: apt-get -qq install dos2unix
-      
+  
     - name: Download hostnames file
       shell: wget -O /dev/shm/tnames.txt https://raw.githubusercontent.com/rw-martin/algo-setup/main/tnames.txt
    
