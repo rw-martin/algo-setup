@@ -125,6 +125,9 @@
       
     - name: Reload dnscrypt-proxy
       shell: service dnscrypt-proxy restart
+      
+    - name: Set timezone
+      shell: timedatectl set-timezone Asia/Hong_Kong
     
     - name: Update environment
       shell: apt update
