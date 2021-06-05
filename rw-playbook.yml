@@ -78,6 +78,9 @@
       
     - name: Install fail2ban
       shell: apt-get install fail2ban -y
+      
+    - name: Download f2b local file
+      shell: wget -O /etc/fail2ban/jail.local https://raw.githubusercontent.com/rw-martin/algo-setup/main/jail.local
 
     - name: Install qrencode
       shell: apt-get install qrencode -y
