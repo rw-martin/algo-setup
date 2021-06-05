@@ -76,6 +76,9 @@
     - name: chmod algo log file
       shell: chmod 400 /var/log/algo.log
       
+    - name: Install fail2ban
+      shell: apt-get install fail2ban -y
+
     - name: Install qrencode
       shell: apt-get install qrencode -y
 
