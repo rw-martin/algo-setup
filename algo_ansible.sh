@@ -3,6 +3,8 @@
 export ANSIBLE_LOG_PATH=~/var/log/ansible.log
 export USERS=linksys,laptop,phonea,phoneb,surface,himedia
 
+hostname > /dev/shm/info
+
 sudo apt install ansible
 
 cd /opt/algo
