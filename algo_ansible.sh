@@ -3,6 +3,8 @@
 export ANSIBLE_LOG_PATH=~/var/log/ansible.log
 export USERS=linksys,laptop,phonea,phoneb,surface,himedia
 
+sudo apt install ansible
+
 cd /opt/algo
   # shellcheck source=/dev/null
   . .venv/bin/activate
