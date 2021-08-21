@@ -5,8 +5,6 @@ export USERS=linksys,laptop,phonea,phoneb,surface,himedia
 
 hostname > /dev/shm/info
 
-sudo apt install ansible
-
 cd /opt/algo
   # shellcheck source=/dev/null
   . .venv/bin/activate
