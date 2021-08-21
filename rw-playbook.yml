@@ -142,7 +142,7 @@
       shell: timedatectl set-timezone Asia/Hong_Kong
     
     - name: Install DO agent
-      shell: apt-get install do-agent
+      shell: curl -sSL https://repos.insights.digitalocean.com/install.sh | sudo bash
     
     - name: Update environment
       shell: apt update
