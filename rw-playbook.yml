@@ -80,9 +80,6 @@
       shell: chmod 400 /var/log/algo.log
       
     - name: Install fail2ban
-      #apt:
-      #   name: fail2ban -y
-      #   state: present
       shell: apt-get install fail2ban -y
  
     - name: Download f2b local file
