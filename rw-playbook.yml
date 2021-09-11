@@ -30,6 +30,9 @@
 
     - name: Set hostname to selected Transformer name
       shell: /usr/bin/hostnamectl set-hostname {{ temphost }}
+      
+    - name: Modify local hosts file
+      shell: echo "127.0.0.1 {{ temphost }}" >> /etc/hosts
 
     - name: "config apparmor to create log files - run {{ item }}"
       command: "{{ item }}"
