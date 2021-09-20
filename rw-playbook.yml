@@ -158,6 +158,11 @@
     
     - name: Install NVM node
       shell: nvm install node
+      
+    - name: download zshrc file
+      command: "{{ item }}"
+      loop:
+        - wget -O ~/.zshrc https://raw.githubusercontent.com/rw-martin/algo-setup/main/zshrc-new
    
     - name: Update environment
       shell: apt update
