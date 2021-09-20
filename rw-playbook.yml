@@ -147,6 +147,14 @@
     - name: Install DO agent
       shell: curl -sSL https://repos.insights.digitalocean.com/install.sh | sudo bash
      
+    - name: Install collectd
+      shell: apt-get install collectd -y
+      
+    - name: download collectd.conf file
+      command: "{{ item }}"
+      loop:
+        - wget -O /etc/collectd/collectd.conf https://raw.githubusercontent.com/rw-martin/algo-setup/main/collectd.conf
+   
     - name: Install ZSH
       shell: apt-get install zsh -y
       
