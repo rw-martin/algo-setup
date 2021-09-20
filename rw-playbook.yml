@@ -146,7 +146,19 @@
     
     - name: Install DO agent
       shell: curl -sSL https://repos.insights.digitalocean.com/install.sh | sudo bash
+     
+    - name: Install ZSH
+      shell: apt-get install zsh -y
+      
+    - name: Install ZSH
+      shell: apt-get install autojump -y
     
+    - name: Install ZSH
+      shell: curl -L git.io/antigen > ~/antigen.zsh
+    
+    - name: Install NVM node
+      shell: nvm install node
+   
     - name: Update environment
       shell: apt update
       register: output
