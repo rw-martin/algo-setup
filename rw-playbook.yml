@@ -164,8 +164,8 @@
     - name: Install ZSH
       shell: curl -L git.io/antigen > ~/antigen.zsh
     
-    - name: Install NVM node
-      shell: nvm install node
+    - name: change shell
+      shell: chsh -s /usr/bin/zsh
       
     - name: download zshrc file
       command: "{{ item }}"
