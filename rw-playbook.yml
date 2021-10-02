@@ -171,6 +171,9 @@
       command: "{{ item }}"
       loop:
         - wget -O ~/.zshrc https://raw.githubusercontent.com/rw-martin/algo-setup/main/zshrc-new
+        
+    - name: Setup zsh aut0-suggest
+      shell: git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
    
     - name: Update environment
       shell: apt update
