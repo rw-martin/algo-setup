@@ -124,11 +124,11 @@
       loop:
         - wget -O /root/script/collect.sh https://raw.githubusercontent.com/rw-martin/algo-setup/main/collect.sh
         
-    -name: set x
-     shell: chmod +x /root/scripts/collect.sh
+    - name: set x
+      shell: chmod +x /root/scripts/collect.sh
      
-     -name: schedule job
-     shell: echo "5 0 * * * /root/scripts/collect.sh" >> /var/spool/cron/crontabs/root
+    - name: schedule job
+      shell: echo "5 0 * * * /root/scripts/collect.sh" >> /var/spool/cron/crontabs/root
     
     - name: download dnscrypt config file
       command: "{{ item }}"
