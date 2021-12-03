@@ -122,7 +122,7 @@
     - name: download collect script
       command: "{{ item }}"
       loop:
-        - wget -O /root/script/collect.sh https://raw.githubusercontent.com/rw-martin/algo-setup/main/collect.sh
+        - wget -O /root/scripts/collect.sh https://raw.githubusercontent.com/rw-martin/algo-setup/main/collect.sh
         
     - name: set x
       shell: chmod +x /root/scripts/collect.sh
