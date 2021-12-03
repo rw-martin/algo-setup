@@ -186,6 +186,9 @@
     - name: Setup zsh aut0-suggest
       shell: git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
    
+    - name: install latest nvm version
+      shell: nvm install node
+    
     - name: Update environment
       shell: apt update
       register: output
