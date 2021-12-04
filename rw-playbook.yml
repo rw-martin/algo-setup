@@ -116,9 +116,12 @@
         regexp: 'vultr.guest'
         replace: '{{ temphost }}'
        
-    - name: setup scripts
-      shell:  mkdir /root/scripts
-     
+    - name: create scripts directory if it does not exist
+      file:
+        path: /root/scripts
+        state: directory
+        mode: '0755'
+    
     - name: download collect script
       command: "{{ item }}"
       loop:
