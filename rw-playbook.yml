@@ -94,12 +94,15 @@
     - name: Generate new QR codes
       shell: qrencode -o /opt/algo/configs/localhost/wireguard/{{ item }}.png < /opt/algo/configs/localhost/wireguard/{{ item }}.conf
       with_items: "{{ files }}"
-
+       
+    - name: does softlink exist
+      stat: 
+        path: /root/wireguard
+      register: path
+        
     - name: Create softlink to WG configs
       shell: cd /root && ln -s /opt/algo/configs/localhost/wireguard wireguard
-      
-    - name: Create softlink to dnscrypt-proxy logs
-      shell: cd /root && ln -s /var/log/dnscrypt-proxy dnscrypt-proxy
+      when: not path.stat.exists
    
     - name: Update UFW 
       shell: ufw allow {{ portnumber.stdout }}
