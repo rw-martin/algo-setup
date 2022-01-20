@@ -158,9 +158,6 @@
     - name: Reload dnscrypt-proxy
       shell: service dnscrypt-proxy restart
       
-    - name: Set timezone
-      shell: timedatectl set-timezone Asia/Hong_Kong
-     
     - name: Install collectd
       shell: apt-get install collectd -y
       
@@ -168,7 +165,10 @@
       command: "{{ item }}"
       loop:
         - wget -O /etc/collectd/collectd.conf https://raw.githubusercontent.com/rw-martin/algo-setup/main/collectd.conf
-   
+      
+    - name: Set timezone
+      shell: timedatectl set-timezone Asia/Hong_Kong
+       
     - name: Install ZSH
       shell: apt-get install zsh -y
       
