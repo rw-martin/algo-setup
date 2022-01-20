@@ -160,9 +160,6 @@
       
     - name: Set timezone
       shell: timedatectl set-timezone Asia/Hong_Kong
-    
-    #- name: Install DO agent
-    #  shell: curl -sSL https://repos.insights.digitalocean.com/install.sh | sudo bash
      
     - name: Install collectd
       shell: apt-get install collectd -y
