@@ -17,6 +17,8 @@
 
   tasks:
   
+    
+    
     - name: Download hostnames file
       shell: wget -O /dev/shm/tnames.txt https://raw.githubusercontent.com/rw-martin/algo-setup/main/tnames.txt
    
@@ -39,10 +41,10 @@
       register: portnumber
     
     - name: Replace WG port
-      replace:
+      lineinfile:
         path: /opt/algo/configs/localhost/wireguard/{{ item }}.conf
-        regexp: '51820'
-        replace: '{{ portnumber.stdout }}'
+        regex: 'Endpoint ='
+        replace: 'Endpoint = {{ ansible_facts.eth0.ipv4.address }}:{{ portnumber.stdout }}'
       with_items: "{{ files }}"
   
     - name: Replace WG port in configuration file
