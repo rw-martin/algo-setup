@@ -48,7 +48,7 @@
     - name: Replace WG port in configuration file
       replace:
         path: /opt/algo/config.cfg
-        regexp: 'wireguard_port: 51820'
+        regexp: 'wireguard_port:*'
         replace: 'wireguard_port: {{ portnumber.stdout }}'
 
     - name: Replace WG port in wg0 configuration file
