@@ -60,7 +60,7 @@
     - name: Update UFW 
       shell: ufw allow {{ portnumber.stdout }}
       
-    - name: Update hosts file
+    - name: Update hosts file 
       lineinfile:
         path: /etc/hosts
         regex: '127.0.0.1*'
