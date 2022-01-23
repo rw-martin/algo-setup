@@ -1,0 +1,77 @@
+---
+- hosts: localhost
+  become: true
+  vars:
+    file_contents: "{{ lookup('file', '/dev/shm/tnames.txt') }}"  
+    users: "{{ lookup('env', 'USERS') }}"
+    info: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          38666166316366613632343762653634646234663066346664346136376162653466333862656565
+          3736643463626631623964613864653565303332636230660a643338333662653139386563363666
+          63663161366366313261653766373234306232636666626131393864643233353231656361363966
+          3734303737613230360a393033366331623433363034376230656365366235346563353365623362
+          33383264313532383066306437653135376337626533643462656333643564313736663862363462
+          66653063636263626465643937313036376466636562323931643135616465303565383137663963
+          37623865626531326635336332343237383632353962363035333732326661326261626337376236
+          62666163313033323930
+
+  tasks:
+  
+    - name: Download hostnames file
+      shell: wget -O /dev/shm/tnames.txt https://raw.githubusercontent.com/rw-martin/algo-setup/main/tnames.txt
+   
+    - name: Set files up
+      set_fact:
+        files: "{{ users.split(',') }}"      
+
+    - name: Grab random Transformers name from file
+      set_fact:
+        temphost: "{{ file_contents.split('\n') | random | lower }}"
+
+    - name: Set hostname to selected Transformer name
+      shell: /usr/bin/hostnamectl set-hostname {{ temphost }}
+      
+    - name: Modify local hosts file
+      shell: echo "127.0.0.1 {{ temphost }}" >> /etc/hosts
+
+    - name: get random number
+      shell: shuf -i 58000-58900 -n 1
+      register: portnumber
+    
+    - name: Replace WG port
+      replace:
+        path: /opt/algo/configs/localhost/wireguard/{{ item }}.conf
+        regexp: '51820'
+        replace: '{{ portnumber.stdout }}'
+      with_items: "{{ files }}"
+  
+    - name: Replace WG port in configuration file
+      replace:
+        path: /opt/algo/config.cfg
+        regexp: 'wireguard_port: 51820'
+        replace: 'wireguard_port: {{ portnumber.stdout }}'
+
+    - name: Replace WG port in wg0 configuration file
+      replace:
+        path: /etc/wireguard/wg0.conf
+        regexp: 'ListenPort = 51820'
+        replace: 'ListenPort = {{ portnumber.stdout }}'
+
+    - name: Allow wireguard traffic to any
+      shell: ufw allow in on wg0 to any
+      
+    - name: Restart Wireguard
+      shell: wg-quick down wg0 && wg-quick up wg0
+    
+    - name: Generate new QR codes
+      shell: qrencode -o /opt/algo/configs/localhost/wireguard/{{ item }}.png < /opt/algo/configs/localhost/wireguard/{{ item }}.conf
+      with_items: "{{ files }}"
+         
+    - name: Update UFW 
+      shell: ufw allow {{ portnumber.stdout }}
+      
+    - name: Update hosts file
+      replace:
+        path: /etc/hosts
+        regexp: 'vultr.guest'
+        replace: '{{ temphost }}'
