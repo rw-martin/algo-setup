@@ -68,4 +68,3 @@
 
     - name: reboot host
       reboot:  
-      
