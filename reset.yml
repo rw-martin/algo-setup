@@ -46,16 +46,16 @@
       with_items: "{{ files }}"
   
     - name: Replace WG port in configuration file
-      replace:
+      lineinfile:
         path: /opt/algo/config.cfg
-        regexp: 'wireguard_port:*'
-        replace: 'wireguard_port: {{ portnumber.stdout }}'
+        regex: 'wireguard_port:*'
+        line: 'wireguard_port: {{ portnumber.stdout }}'
 
     - name: Replace WG port in wg0 configuration file
-      replace:
+      lineinfile:
         path: /etc/wireguard/wg0.conf
-        regexp: 'ListenPort = 51820'
-        replace: 'ListenPort = {{ portnumber.stdout }}'
+        regex: 'ListenPort ='
+        line: 'ListenPort = {{ portnumber.stdout }}'
 
     - name: Allow wireguard traffic to any
       shell: ufw allow in on wg0 to any
