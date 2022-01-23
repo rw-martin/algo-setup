@@ -61,7 +61,7 @@
       shell: ufw allow {{ portnumber.stdout }}
       
     - name: Update hosts file
-      linein:
+      lineinfile:
         path: /etc/hosts
         regex: '127.0.0.1'
         line: '127.0.0.1 {{ temphost }}'
