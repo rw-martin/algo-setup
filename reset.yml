@@ -49,7 +49,10 @@
 
     - name: Allow wireguard traffic to any
       shell: ufw allow in on wg0 to any
-      
+
+    - name: clean up old entry
+      shell: ufw delete allow 58797
+
     - name: Restart Wireguard
       shell: wg-quick down wg0 && wg-quick up wg0
     
