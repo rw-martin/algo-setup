@@ -70,5 +70,4 @@
         line:  '127.0.0.1 {{ temphost }}'
 
     - name: reboot host
-      reboot:  
-      
+      shell: reboot
