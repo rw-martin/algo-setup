@@ -25,7 +25,7 @@
       shell: echo "127.0.0.1 {{ temphost }}" >> /etc/hosts
 
     - name: get random number
-      shell: shuf -i 58000-58900 -n 1
+      shell: shuf -i 38000-58900 -n 1
       register: portnumber
     
     - name: Replace WG port
