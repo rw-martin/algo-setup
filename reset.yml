@@ -71,6 +71,9 @@
 
     - name: register host w/ NextDNS
       shell: curl https://link-ip.nextdns.io/b4ba6a/3d270c2ab3df2f91
-    
+      
+    - name: Update resolv.conf file
+      shell: wget -O /etc/resolv.conf https://raw.githubusercontent.com/rw-martin/algo-setup/main/resolv.conf
+      
     - name: reboot host
       shell: reboot
