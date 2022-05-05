@@ -21,6 +21,9 @@
     - name: Set hostname to selected Transformer name
       shell: /usr/bin/hostnamectl set-hostname {{ temphost }}
       
+    - name: Update resolv.conf file
+      shell: wget -O /etc/resolv.conf https://raw.githubusercontent.com/rw-martin/algo-setup/main/resolv.conf
+    
     - name: Modify local hosts file
       shell: echo "127.0.0.1 {{ temphost }}" >> /etc/hosts
 
@@ -71,9 +74,6 @@
 
     - name: register host w/ NextDNS
       shell: curl https://link-ip.nextdns.io/b4ba6a/3d270c2ab3df2f91
-      
-    - name: Update resolv.conf file
-      shell: wget -O /etc/resolv.conf https://raw.githubusercontent.com/rw-martin/algo-setup/main/resolv.conf
-      
+        
     - name: reboot host
       shell: reboot
