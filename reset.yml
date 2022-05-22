@@ -59,6 +59,10 @@
     - name: regenerate pub key for hosts
       shell: cat /opt/algo/configs/localhost/wireguard/.pki/private/{{ item }} | wg pubkey > /opt/algo/configs/localhost/wireguard/.pki/public/{{ item }}
       with_items: "{{ files }}"
+      
+    - name: regenerate preshared key for hosts
+      shell: wg genpsk > /opt/algo/configs/localhost/wireguard/.pki/preshared/{{ item }}
+      with_items: "{{ files }}"
 
     - name: Replace WG port
       lineinfile:
@@ -102,4 +106,4 @@
         line:  '127.0.0.1 {{ temphost }}'
         
     - name: reboot host
-      shell: reboot
+      shell: #reboot
