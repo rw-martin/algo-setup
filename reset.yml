@@ -75,6 +75,8 @@
       shell: cat /opt/algo/configs/localhost/wireguard/.pki/preshared/{{ item }}
       register: tempkey
       with_items: "{{ files }}"
+    - debug:
+        var: tempkey
 
     - name: fred
       lineinfile:
