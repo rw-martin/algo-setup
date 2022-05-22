@@ -72,8 +72,13 @@
       with_items: "{{ files }}"
 
     - name: Update shared key info
-      shell: cat /opt/algo/configs/localhost/wireguard/.pki/presharwed/{{ item }}
+      tasks:
+      
+      -name: fred
+      shell: cat /opt/algo/configs/localhost/wireguard/.pki/preshared/{{ item }}
       register: tempkey
+      
+      -name: bob
       lineinfile:
         path: /opt/algo/configs/localhost/wireguard/{{ item }}.conf
         regex: 'PrivateKey ='
