@@ -37,6 +37,29 @@
       shell: shuf -i 38000-58900 -n 1
       register: portnumber
     
+    - name: regenerate wg private key
+      shell: wg genkey > /dev/shm/newkey & wg set private-key /dev/shm/newkey & cat /dev/shm/newkey
+      register: privkey
+      
+    - name: regenerate wg pub key
+      shell: cat /dev/shm/newkey | wg pubkey > /dev/shm/pubkey & cat /dev/shm/pubkey
+      register: pubkey
+      
+    - name: Update public key info
+      lineinfile:
+        path: /opt/algo/configs/localhost/wireguard/{{ item }}.conf
+        regex: 'PublicKey ='
+        line: 'PublicKey = {{ pubkey.stdout }}'
+      with_items: "{{ files }}"
+
+    - name: regenerate priv key for hosts
+      shell: wg genkey > /opt/algo/configs/localhost/wireguard/.pki/private/{{ item }}
+      with_items: "{{ files }}"
+      
+    - name: regenerate pub key for hosts
+      shell: cat /opt/algo/configs/localhost/wireguard/.pki/private/{{ item }} > wg pubkey | /opt/algo/configs/localhost/wireguard/.pki/public/{{ item }}
+      with_items: "{{ files }}"
+
     - name: Replace WG port
       lineinfile:
         path: /opt/algo/configs/localhost/wireguard/{{ item }}.conf
