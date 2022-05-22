@@ -71,7 +71,7 @@
         line: 'PrivateKey = {{ privkey.stdout }}'
       with_items: "{{ files }}"
 
-    - name: Update shared key info
+    - name: Update shared key info A
       shell: cat /opt/algo/configs/localhost/wireguard/.pki/preshared/{{ item }}
       register: tempkey
 
