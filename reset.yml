@@ -57,7 +57,7 @@
       with_items: "{{ files }}"
       
     - name: regenerate pub key for hosts
-      shell: cat /opt/algo/configs/localhost/wireguard/.pki/private/{{ item }} > wg pubkey | /opt/algo/configs/localhost/wireguard/.pki/public/{{ item }}
+      shell: cat /opt/algo/configs/localhost/wireguard/.pki/private/{{ item }} | wg pubkey > /opt/algo/configs/localhost/wireguard/.pki/public/{{ item }}
       with_items: "{{ files }}"
 
     - name: Replace WG port
