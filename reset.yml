@@ -79,7 +79,7 @@
         var: tempkey
         
     - name: fred
-        lineinfile:
+      lineinfile:
         path: /opt/algo/configs/localhost/wireguard/{{ item }}.conf
         regex: 'PrivateKey ='
         line: 'PrivateKey = {{ tempkey.item.stdout }}'
