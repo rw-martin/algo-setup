@@ -76,14 +76,11 @@
       register: tempkey
       with_items: "{{ files }}"
     - debug:
-        var: tempkey
-
-    - name: fred
-      lineinfile:
+        lineinfile:
         path: /opt/algo/configs/localhost/wireguard/{{ item }}.conf
         regex: 'PrivateKey ='
         line: 'PrivateKey = {{ tempkey.item.stdout }}'
-      with_items: "{{ tempkey }}"
+      #with_items: "{{ tempkey }}"
       
     - name: Replace WG port
       lineinfile:
