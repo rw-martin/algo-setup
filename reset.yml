@@ -71,7 +71,7 @@
         line: 'PrivateKey = {{ privkey.stdout }}'
       with_items: "{{ files }}"
 
-    - name: Update shared key info A
+    - name: Update shared key info
       shell: cat /opt/algo/configs/localhost/wireguard/.pki/preshared/{{ item }}
       register: tempkey
 
@@ -80,7 +80,7 @@
         regex: 'PrivateKey ='
         line: 'PrivateKey = {{ tempkey.stdout }}'
 
-
+      with_items: "{{ files }}"
     - name: Replace WG port
       lineinfile:
         path: /opt/algo/configs/localhost/wireguard/{{ item }}.conf
