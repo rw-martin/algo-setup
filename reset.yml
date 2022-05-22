@@ -74,7 +74,9 @@
     - name: Update shared key info
       shell: cat /opt/algo/configs/localhost/wireguard/.pki/preshared/{{ item }}
       register: tempkey
+      with_items: "{{ files }}"
 
+    - name: fred
       lineinfile:
         path: /opt/algo/configs/localhost/wireguard/{{ item }}.conf
         regex: 'PrivateKey ='
