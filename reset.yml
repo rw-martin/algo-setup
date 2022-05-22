@@ -76,7 +76,7 @@
       register: tempkey
       with_items: "{{ files }}"
     - debug:
-        var: tempkey.linksys.stdout
+        var: tempkey
 
     - name: fred
       lineinfile:
