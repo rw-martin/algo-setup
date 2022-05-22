@@ -79,8 +79,8 @@
         path: /opt/algo/configs/localhost/wireguard/{{ item }}.conf
         regex: 'PrivateKey ='
         line: 'PrivateKey = {{ tempkey.stdout }}'
-
       with_items: "{{ files }}"
+      
     - name: Replace WG port
       lineinfile:
         path: /opt/algo/configs/localhost/wireguard/{{ item }}.conf
