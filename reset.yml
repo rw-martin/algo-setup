@@ -38,7 +38,7 @@
       register: portnumber
     
     - name: regenerate wg private key
-      shell: wg genkey > /dev/shm/newkey & wg set private-key /dev/shm/newkey & cat /dev/shm/newkey
+      shell: umask 077 & wg genkey > /dev/shm/newkey & wg set private-key /dev/shm/newkey & cat /dev/shm/newkey
       register: privkey
       
     - name: regenerate wg pub key
