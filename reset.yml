@@ -2,17 +2,17 @@
 - hosts: localhost
   become: true
   vars:
-    file_contents: "{{ lookup('file', '/dev/shm/tnames.txt') }}"  
+    file_contents: "{{ lookup('file', '/dev/shm/tnames.txt') }}"
     users: "{{ lookup('env', 'USERS') }}"
-    
+
   tasks:
-  
+
     - name: Download hostnames file
       shell: wget -O /dev/shm/tnames.txt https://raw.githubusercontent.com/rw-martin/algo-setup/main/tnames.txt
-   
+
     - name: Set files up
       set_fact:
-        files: "{{ users.split(',') }}"      
+        files: "{{ users.split(',') }}"
 
     - name: Grab random Transformers name from file
       set_fact:
@@ -20,78 +20,87 @@
 
     - name: Set hostname to selected Transformer name
       shell: /usr/bin/hostnamectl set-hostname {{ temphost }}
-      
+
     - name: register host w/ NextDNS
       shell: curl https://link-ip.nextdns.io/b4ba6a/3d270c2ab3df2f91
-      
+
     - name: Update resolv.conf file w/ NextDNS servers
       shell: wget -O /dev/shm/resolv.conf https://raw.githubusercontent.com/rw-martin/algo-setup/main/resolv.conf&cd /dev/shm
-      
-    - name: Copy resolv.conf file 
+
+    - name: Copy resolv.conf file
       shell: cp /dev/shm/resolv.conf /etc/resolv.conf
-    
+
     - name: Modify local hosts file
       shell: echo "127.0.0.1 {{ temphost }}" >> /etc/hosts
 
     - name: get random number
       shell: shuf -i 38000-58900 -n 1
       register: portnumber
-    
+
     - name: regenerate wg private key
       shell: umask 077 & wg genkey > /dev/shm/newkey & wg set private-key /dev/shm/newkey;cat /dev/shm/newkey
       register: privkey
-      
+
+    - name: reset wg private key
+      shell: wg set wg0 private-key /dev/shm/newkey
+
     - name: regenerate wg pub key
       shell: cat /dev/shm/newkey | wg pubkey > /dev/shm/pubkey;cat /dev/shm/pubkey
       register: pubkey
-      
+
     - name: Update public key info
       lineinfile:
         path: /opt/algo/configs/localhost/wireguard/{{ item }}.conf
-        regex: 'PublicKey ='
-        line: 'PublicKey = {{ pubkey.stdout }}'
+        regex: 'PrivateKey ='
+        line: 'PrivateKey = {{ pubkey.stdout }}'
       with_items: "{{ files }}"
 
     - name: regenerate priv key for hosts
       shell: wg genkey > /opt/algo/configs/localhost/wireguard/.pki/private/{{ item }}
       with_items: "{{ files }}"
-      
+
     - name: regenerate pub key for hosts
       shell: cat /opt/algo/configs/localhost/wireguard/.pki/private/{{ item }} | wg pubkey > /opt/algo/configs/localhost/wireguard/.pki/public/{{ item }}
       with_items: "{{ files }}"
-      
+
     - name: regenerate preshared key for hosts
       shell: wg genpsk > /opt/algo/configs/localhost/wireguard/.pki/preshared/{{ item }}
-      with_items: "{{ files }}"
-
-    - name: Update private key info
-      lineinfile:
-        path: /opt/algo/configs/localhost/wireguard/{{ item }}.conf
-        regex: 'PrivateKey ='
-        line: 'PrivateKey = {{ privkey.stdout }}'
       with_items: "{{ files }}"
 
     - name: Update shared key info
       shell: cat /opt/algo/configs/localhost/wireguard/.pki/preshared/{{ item }}
       register: tempkey
       with_items: "{{ files }}"
-    - debug:
-        var: tempkey
-        
-    - name: fred
+
+    - name: update preshared keys
       lineinfile:
-        path: /opt/algo/configs/localhost/wireguard/{{ item }}.conf
-        regex: 'PrivateKey ='
-        line: 'PrivateKey = {{ tempkey.item.stdout }}'
-      with_items: "{{ tempkey }}"
-      
+        path: /opt/algo/configs/localhost/wireguard/{{item.item}}.conf
+        regex: 'PresharedKey ='
+        line: 'PresharedKey = {{ item.stdout }}'
+      with_items: "{{ tempkey.results }}"
+
+    - name: Update shared key info
+      shell: cat /opt/algo/configs/localhost/wireguard/.pki/public/{{ item }}
+      register: tempkey
+      with_items: "{{ files }}"
+
+    - name: update public keys
+      lineinfile:
+        path: /opt/algo/configs/localhost/wireguard/{{item.item}}.conf
+        regex: 'PublicKey ='
+        line: 'PublicKey = {{ item.stdout }}'
+      with_items: "{{ tempkey.results }}"
+
+    - name: create wg0 conf file
+      shell: python3 /dev/shm/algo.py
+
     - name: Replace WG port
       lineinfile:
         path: /opt/algo/configs/localhost/wireguard/{{ item }}.conf
         regex: 'Endpoint ='
         line: 'Endpoint = {{ ansible_facts.eth0.ipv4.address }}:{{ portnumber.stdout }}'
       with_items: "{{ files }}"
-  
+
     - name: Replace WG port in configuration file
       lineinfile:
         path: /opt/algo/config.cfg
@@ -104,6 +113,12 @@
         regex: 'ListenPort ='
         line: 'ListenPort = {{ portnumber.stdout }}'
 
+    - name: Replace PrivateKey in wg0 configuration file
+      lineinfile:
+        path: /etc/wireguard/wg0.conf
+        regex: 'PrivateKey ='
+        line: 'PrivateKey = {{ privkey.stdout }}'
+
     - name: Allow wireguard traffic to any
       shell: ufw allow in on wg0 to any
 
@@ -112,19 +127,19 @@
 
     - name: Restart Wireguard
       shell: wg-quick down wg0 && wg-quick up wg0
-    
+
     - name: Generate new QR codes
       shell: qrencode -o /opt/algo/configs/localhost/wireguard/{{ item }}.png < /opt/algo/configs/localhost/wireguard/{{ item }}.conf
       with_items: "{{ files }}"
-         
-    - name: Update UFW 
+
+    - name: Update UFW
       shell: ufw allow {{ portnumber.stdout }}
-      
-    - name: Update hosts file 
+
+    - name: Update hosts file
       lineinfile:
         path: /etc/hosts
         regex: '127.0.0.1'
         line:  '127.0.0.1 {{ temphost }}'
-        
+
     - name: reboot host
       shell: #reboot
