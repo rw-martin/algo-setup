@@ -38,7 +38,7 @@
       register: portnumber
 
     - name: regenerate wg private key
-      shell: umask 077 & wg genkey > /dev/shm/newkey & wg set private-key /dev/shm/newkey;cat /dev/shm/newkey
+      shell: umask 077; wg genkey > /dev/shm/newkey; wg set private-key /dev/shm/newkey;cat /dev/shm/newkey
       register: privkey
 
     - name: reset wg private key
@@ -72,24 +72,31 @@
       register: tempkey
       with_items: "{{ files }}"
 
-    - name: update preshared keys
+    - name: update peer-preshared keys
       lineinfile:
         path: /opt/algo/configs/localhost/wireguard/{{item.item}}.conf
         regex: 'PresharedKey ='
         line: 'PresharedKey = {{ item.stdout }}'
       with_items: "{{ tempkey.results }}"
 
-    - name: Update shared key info
-      shell: cat /opt/algo/configs/localhost/wireguard/.pki/public/{{ item }}
+    - name: Update interface-private key info
+      shell: cat /opt/algo/configs/localhost/wireguard/.pki/private/{{ item }}
       register: tempkey
       with_items: "{{ files }}"
 
-    - name: update public keys
+    - name: update interface-privatekey key
       lineinfile:
         path: /opt/algo/configs/localhost/wireguard/{{item.item}}.conf
-        regex: 'PublicKey ='
-        line: 'PublicKey = {{ item.stdout }}'
+        regex: 'PrivateKey ='
+        line: 'PrivateKey = {{ item.stdout }}'
       with_items: "{{ tempkey.results }}"
+
+    - name: update peer-public key
+      lineinfile:
+        path: /opt/algo/configs/localhost/wireguard/{{item}}.conf
+        regex: 'PublicKey ='
+        line: 'PublicKey = {{ pubkey.stdout }}'
+      with_items: "{{ files }}"
 
     - name: create wg0 conf file
       shell: python3 /dev/shm/algo.py
