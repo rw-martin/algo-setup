@@ -14,7 +14,7 @@
       set_fact:
         files: "{{ users.split(',') }}"
 
-    - name: Grab random Transformers name from file
+    - name: Grab random Transformers autobot/decepticon name from file
       set_fact:
         temphost: "{{ file_contents.split('\n') | random | lower }}"
 
@@ -98,7 +98,7 @@
         line: 'PublicKey = {{ pubkey.stdout }}'
       with_items: "{{ files }}"
 
-    - name: create wg0 conf file
+    - name: re-create wg0 conf file
       shell: python3 /dev/shm/algo.py
 
     - name: Replace WG port
